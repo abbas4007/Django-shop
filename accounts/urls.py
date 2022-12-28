@@ -6,4 +6,5 @@ app_name='accounts'
 urlpatterns = [
 
     path('register/',Registerview.as_view(),name='register'),
+    # path('register/',Registerview.as_view(),name='register'),
 ]
