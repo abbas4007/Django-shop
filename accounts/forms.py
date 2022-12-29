@@ -9,3 +9,10 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = ('email', 'phone_number', 'full_name')
 
+class UserLoginForm(forms.Form):
+	phone = forms.CharField()
+	password = forms.CharField(widget=forms.PasswordInput)
+
+
+class VerifyCodeForm(forms.Form):
+	code = forms.IntegerField()

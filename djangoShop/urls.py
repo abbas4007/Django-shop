@@ -7,4 +7,5 @@ import accounts
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/',include('accounts.urls', namespace='accounts')),
+    path('home/',include('home.urls', namespace='home')),
 ]
