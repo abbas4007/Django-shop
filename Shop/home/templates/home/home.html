@@ -1,5 +1,5 @@
-<html>
-
+{% extends 'base.html' %}
+{% block content %}
     {% for category in categories %}
 
         <div class="btn-group">
@@ -24,4 +24,5 @@
             </div>
         </div>
     {% endfor %}
-</html>
+
+{% endblock %}
