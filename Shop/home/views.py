@@ -3,6 +3,7 @@ from django.views import View
 from .models import Product,Category
 
 class HomeView(View):
+	#bray inke momkene category ha filter bshan pas None ersal mikonim
 	def get(self, request, category_slug=None):
 		products = Product.objects.filter(available=True)
 		categories = Category.objects.filter(is_sub=False)

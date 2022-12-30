@@ -23,7 +23,7 @@ class Order(models.Model):
 			discount_price = (self.discount / 100) * total
 			return int(total - discount_price)
 		return total
-
+ 
 
 class OrderItem(models.Model):
 	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
