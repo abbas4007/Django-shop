@@ -25,3 +25,11 @@ class ProductDetailView(View):
 	def get(self, request, slug):
 		product = get_object_or_404(Product, slug=slug)
 		return render(request, 'home/detail.html', {'product':product})
+
+
+class ProductDetailApiView(APIView):
+	# serializer_class=ProductSerializer
+	def get(self,request,slug):
+		product = get_object_or_404(Product, slug=slug)
+		ser_data=ProductSerializer(product)
+		return Response(data=ser_data.data)
