@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'home',
     'storages',
     'orders',
-    'ckeditor'
+    'ckeditor',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
