@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'rest_framework'
 ]
-
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -146,3 +147,11 @@ AWS_STORAGE_BUCKET_NAME = 'django-shop-center'
 AWS_SERVICE_NAME = 's3'
 #AWS_S3_FILE_OVERWRITE = False
 AWS_LOCAL_STORAGE = f'{BASE_DIR}/aws/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    
+}
+CORS_ORIGIN_ALLOW_ALL = True

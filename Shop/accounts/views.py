@@ -92,8 +92,8 @@ class UserLoginView(View):
 
 
 class UserRegisterApiView(APIView):
-	def post(self,request):
-		ser_data=UserSerializer(request.POST)
+	def post(self, request):
+		ser_data = UserSerializer(data=request.POST)
 		if ser_data.is_valid():
 			ser_data.create(ser_data.validated_data)
 			return Response(ser_data.data, status=status.HTTP_201_CREATED)
