@@ -1,6 +1,5 @@
 from home.models import Product
 
-
 CART_SESSION_ID = 'cart'
 
 class Cart:

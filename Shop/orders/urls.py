@@ -12,4 +12,7 @@ urlpatterns = [
 	path('pay/<int:order_id>/', views.OrderPayView.as_view(), name='order_pay'),
 	path('verify/', views.OrderVerifyView.as_view(), name='order_verify'),
 	path('apply/<int:order_id>/', views.CouponApplyView.as_view(), name='apply_coupon'),
+	path('', views.CartApiView.as_view(), name='CartApiView'),
+	path('cart/addapi/<int:product_id>/', views.CartAddApiView.as_view(), name='cart_add'),
+
 ]
