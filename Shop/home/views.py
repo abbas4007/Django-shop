@@ -15,10 +15,14 @@ class HomeView(View):
 		return render(request, 'home/home.html', {'products':products, 'categories':categories})	
 
 class HomeApiView(APIView):
-	# serializer_class=ProductSerializer
-	def get(self,request):
-		product=Product.objects.all()
-		ser_data=ProductSerializer(product,many=True)
+	serializer_class=ProductSerializer
+	def get(self,request,category_slug=None):
+		products = Product.objects.filter(available=True)
+		categories = Category.objects.filter(is_sub=False)
+		if category_slug:
+			category = Category.objects.get(slug=category_slug)
+			products = products.filter(category=category)
+		ser_data=ProductSerializer(products,many=True)
 		return Response(data=ser_data.data)
 
 class ProductDetailView(View):

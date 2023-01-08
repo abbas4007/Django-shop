@@ -7,7 +7,7 @@ from .models import OtpCode, User
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .serializers import UserSerializer
+from .serializers import UserLoginSerializer, UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -99,3 +99,4 @@ class UserRegisterApiView(APIView):
 			return Response(ser_data.data, status=status.HTTP_201_CREATED)
 		return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 			
+
