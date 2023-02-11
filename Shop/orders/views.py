@@ -31,7 +31,7 @@ class CartApiView(APIView):
 class CartAddView(PermissionRequiredMixin, View):
     permission_required = 'orders.add_order'
 
-    def post(self, request, product_id):
+    def post(self, request, przoduct_id):
         cart = Cart(request)
         product = get_object_or_404(Product, id=product_id)
         form = CartAddForm(request.POST)

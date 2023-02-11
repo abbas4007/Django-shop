@@ -10,6 +10,6 @@ urlpatterns = [
 	path('category/<slug:category_slug>/', views.HomeView.as_view(), name='category_filter'),
 	path('<slug:slug>/', views.ProductDetailView.as_view(), name='product_detail'),
 	path('api/<slug:slug>/', views.ProductDetailApiView.as_view(), name='product_detailapi'),
-	path('home', views.HomeApiView.as_view(), name='product_api'),
+	# path('home', views.HomeApiView.as_view(), name='product_api'),
 	
 ]
