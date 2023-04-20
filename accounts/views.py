@@ -3,10 +3,23 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
+from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 from .forms import RegisterForm,UserLoginForm,VerifyCodeForm
 from random import random
 from utils import send_otp_code
 from .models import OtpCode,User
+from .serializers import UserSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import UserRegisterSerializer, UserSerializer
+from rest_framework import status
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 class Registerview(View):
@@ -34,9 +47,6 @@ class Registerview(View):
         return render(request, self.template_name, {'form': form})
 
 
-
-
-
 class UserLoginView(View):
     form_class=UserLoginForm
     template_name='accounts/login'
@@ -56,13 +66,15 @@ class UserLoginView(View):
             messages.error(request, 'phone or password is wrong', 'warning')
             return render(request, self.template_name, {'form': form})
 
+
+#
 class UserLogoutView(LoginRequiredMixin, View):
 	def get(self, request):
 		logout(request)
 		messages.success(request, 'you logged out successfully', 'success')
 		return redirect('home:home')
-
-
+#
+#
 class UserRegisterVerifyCodeView(View):
 	form_class = VerifyCodeForm
 
@@ -79,7 +91,7 @@ class UserRegisterVerifyCodeView(View):
 			if cd['code'] == code_instance.code:
 				User.objects.create_user(user_session['phone_number'], user_session['email'],
 										 user_session['full_name'], user_session['password'])
-
+#
 				code_instance.delete()
 				messages.success(request, 'you registered.', 'success')
 				return redirect('home:home')
@@ -87,28 +99,37 @@ class UserRegisterVerifyCodeView(View):
 				messages.error(request, 'this code is wrong', 'danger')
 				return redirect('accounts:verify_code')
 		return redirect('home:home')
+#
 
-class UserRegisterVerifyCodeView(View):
-	form_class = VerifyCodeForm
+#
+# class UserViewSet(viewsets.ViewSet):
+# 	permission_classes = [IsAuthenticated,]
+# 	queryset = User.objects.all()
+#
+# 	def list(self, request):
+# 		srz_data = UserSerializer(instance=self.queryset, many=True)
+# 		return Response(data=srz_data.data)
+#
+# 	def retrieve(self, request, pk=None):
+# 		user = get_object_or_404(self.queryset, pk=pk)
+# 		srz_data = UserSerializer(instance=user)
+# 		return Response(data=srz_data.data)
+#
+# 	def partial_update(self, request, pk=None):
+# 		user = get_object_or_404(self.queryset, pk=pk)
+# 		if user != request.user:
+# 			return Response({'permission denied': 'you are not the owner'})
+# 		srz_data = UserSerializer(instance=user, data=request.POST, partial=True)
+# 		if srz_data.is_valid():
+# 			srz_data.save()
+# 			return Response(data=srz_data.data)
+# 		return Response(data=srz_data.errors)
+#
+# 	def destroy(self, request, pk=None):
+# 		user = get_object_or_404(self.queryset, pk=pk)
+# 		if user != request.user:
+# 			return Response({'permission denied': 'you are not the owner'})
+# 		user.is_active = False
+# 		user.save()
+# 		return Response({'message':'user deactivated'})
 
-	def get(self, request):
-		form = self.form_class
-		return render(request, 'accounts/verify.html', {'form':form})
-
-	def post(self, request):
-		user_session = request.session['user_registration_info']
-		code_instance = OtpCode.objects.get(phone_number=user_session['phone_number'])
-		form = self.form_class(request.POST)
-		if form.is_valid():
-			cd = form.cleaned_data
-			if cd['code'] == code_instance.code:
-				User.objects.create_user(user_session['phone_number'], user_session['email'],
-										 user_session['full_name'], user_session['password'])
-
-				code_instance.delete()
-				messages.success(request, 'you registered.', 'success')
-				return redirect('home:home')
-			else:
-				messages.error(request, 'this code is wrong', 'danger')
-				return redirect('accounts:verify_code')
-		return redirect('home:home')
